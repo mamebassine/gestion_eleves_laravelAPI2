@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evaluation extends Model
 {
-    protected $fillable = ['titre', 'date', 'note_maximale', 'ue_id', 'etudiant_id'];
+    // Les champs que vous pouvez remplir via des requêtes
+    protected $fillable = ['etudiant_id', 'matiere_id', 'date', 'valeur'];
+
+    // Assurez-vous que les timestamps sont activés si vous les utilisez
+    public $timestamps = true;
 }

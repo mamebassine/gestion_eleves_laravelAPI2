@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::apiResource('etudiants', EtudiantController::class);
 
 
+
+
 Route::apiResource('evaluations', EvaluationController::class);
 Route::apiResource('matieres', MatiereController::class);
 Route::apiResource('ues', UeController::class);

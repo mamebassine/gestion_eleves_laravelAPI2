@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
@@ -34,36 +35,30 @@ class ApiController extends Controller
         ]);
     }
 
-    // Méthode pour connecter un utilisateur
-    public function login(Request $request)
-    {
-        // Valider les données de la requête pour s'assurer que l'email et le mot de passe sont fournis
-        $request->validate([
-            "email" => "required|email", // L'email est requis et doit être un email valide
-            "password" => "required" // Le mot de passe est requis
-        ]);
-
-        // Tente d'authentifier l'utilisateur avec les informations fournies
-        $token = Auth::attempt([
-            "email" => $request->email, // Utilise l'email fourni
-            "password" => $request->password // Utilise le mot de passe fourni
-        ]);
-
-        // Vérifie si l'authentification a échoué
-        if (!$token) {
-            return response()->json([
-                "status" => false, // Statut de la réponse en cas d'échec
-                "message" => "Informations de connexion non valides" // Message d'erreur
-            ]);
-        }
-
-        // Répondre avec un message de succès et le jeton d'authentification
-        return response()->json([
-            "status" => true, // Statut de la réponse en cas de succès
-            "message" => "L'utilisateur s'est connecté avec succès", // Message de succès
-            "token" => $token // Jeton d'authentification JWT
-        ]);
-    }
+     // Méthode pour connecter un utilisateur
+     public function login(Request $request)
+     {
+         // Valider les données de la requête pour s'assurer que l'email et le mot de passe sont fournis
+         $request->validate([
+             "email" => "required|email", // L'email est requis et doit être un email valide
+             "password" => "required" // Le mot de passe est requis
+         ]);
+ 
+         // Tente d'authentifier l'utilisateur avec les informations fournies et de générer un token JWT
+         if (!$token = JWTAuth::attempt($request->only('email', 'password'))) {
+             return response()->json([
+                 "status" => false, // Statut de la réponse en cas d'échec
+                 "message" => "Informations de connexion non valides" // Message d'erreur
+             ]);
+         }
+ 
+         // Répondre avec un message de succès et le jeton d'authentification JWT
+         return response()->json([
+             "status" => true, // Statut de la réponse en cas de succès
+             "message" => "L'utilisateur s'est connecté avec succès", // Message de succès
+             "token" => $token // Jeton d'authentification JWT
+         ]);
+     }
 
     // Méthode pour obtenir les données du profil de l'utilisateur connecté
     public function profile()

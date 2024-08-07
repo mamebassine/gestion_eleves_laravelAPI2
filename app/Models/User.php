@@ -26,13 +26,10 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     // Définition des types de données pour certains attributs
-    protected function casts() : array
-    {
-        return [
-            'email_verified_at' => 'datetime', // Convertit la date de vérification de l'email en un objet DateTime
-            'password' => 'hashed',            // Indique que le mot de passe doit être hashé automatiquement
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime', // Convertit la date de vérification de l'email en un objet DateTime
+        'password' => 'hashed',            // Indique que le mot de passe doit être hashé automatiquement
+    ];
 
     // Méthode requise par l'interface JWTSubject pour obtenir l'identifiant unique de l'utilisateur (JWT Identifier)
     public function getJWTIdentifier()

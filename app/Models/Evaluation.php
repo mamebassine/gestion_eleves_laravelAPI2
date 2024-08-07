@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Evaluation extends Model
 {
-    use HasFactory;
+    protected $fillable = ['titre', 'date', 'note_maximale', 'ue_id', 'etudiant_id'];
 }

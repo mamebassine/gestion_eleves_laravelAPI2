@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\MatiereController;
+use App\Http\Controllers\UeController;
 
 // Route pour obtenir l'utilisateur authentifié avec le middleware 'auth:sanctum'
 // Ce middleware s'assure que l'utilisateur est authentifié avant de pouvoir accéder à cette route
@@ -30,3 +34,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route pour déconnecter l'utilisateur
     Route::get('logout', [ApiController::class, 'logout']);
 });
+
+
+
+
+
+Route::apiResource('etudiants', EtudiantController::class);
+
+
+Route::apiResource('evaluations', EvaluationController::class);
+Route::apiResource('matieres', MatiereController::class);
+Route::apiResource('ues', UeController::class);
+
+
+

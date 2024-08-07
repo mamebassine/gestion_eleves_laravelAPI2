@@ -2,46 +2,44 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // Définition des attributs qui peuvent être remplis par des valeurs fournies par l'utilisateur
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name',      // Le nom de l'utilisateur
+        'email',     // L'adresse email de l'utilisateur
+        'password',  // Le mot de passe de l'utilisateur (qui sera hashé avant d'être stocké)
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    // Définition des attributs qui doivent être cachés lors de la conversion du modèle en tableau ou en JSON
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password',        // Cache le mot de passe pour qu'il ne soit pas exposé publiquement
+        'remember_token',  // Cache le token "se souvenir de moi"
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    // Définition des types de données pour certains attributs
+    protected $casts = [
+        'email_verified_at' => 'datetime', // Convertit la date de vérification de l'email en un objet DateTime
+        'password' => 'hashed',            // Indique que le mot de passe doit être hashé automatiquement
+    ];
+
+    // Méthode requise par l'interface JWTSubject pour obtenir l'identifiant unique de l'utilisateur (JWT Identifier)
+    public function getJWTIdentifier()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->getKey(); // Retourne la clé primaire de l'utilisateur (généralement l'ID)
+    }
+
+    // Méthode requise par l'interface JWTSubject pour définir les revendications personnalisées dans le JWT (JWT Custom Claims)
+    public function getJWTCustomClaims()
+    {
+        return []; // Aucun claim personnalisé n'est ajouté ici, renvoie un tableau vide
     }
 }

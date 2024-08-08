@@ -79,6 +79,8 @@ namespace App\Http\Controllers\Annotations ;
  * ),
  *     @OA\Parameter(in="path", name="password", required=false, @OA\Schema(type="string")
  * ),
+ *     @OA\Parameter(in="path", name="admin", required=false, @OA\Schema(type="string")
+ * ),
  *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
  * ),
  *     tags={"Authentification"},

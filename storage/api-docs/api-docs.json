@@ -877,6 +877,11 @@
                         "type": "string"
                     },
                     {
+                        "in": "path",
+                        "name": "admin",
+                        "type": "string"
+                    },
+                    {
                         "in": "header",
                         "name": "User-Agent",
                         "type": "string"
